@@ -1,9 +1,6 @@
-
-
 //initialize function called when the script loads
 function initialize(){
     cities();
-	addColumns
 };
 
 //function to create a table with cities and their populations
@@ -12,46 +9,24 @@ function cities(){
     var cityPop = [
     { 
         city: 'Madison',
-        population: 233209
+        population: 233209,
+        citySize: "Medium"
     },
     {
         city: 'Milwaukee',
-        population: 594833
+        population: 594833,
+        citySize: "Large"
     },
     {
         city: 'Green Bay',
-        population: 104057
+        population: 104057,
+        citySize: "Medium"
     },
     {
         city: 'Superior',
-        population: 27244
+        population: 27244,
+        citySize: "Small"
     }]
-
-	
-    
-		document.querySelectorAll("tr").forEach(function(row, i){
-	
-			if (i == 0){
-	
-				headerRow.insertAdjacentHTML('beforeend', '<th>City Size</th>');
-			} else {
-	
-				var citySize;
-	
-				if (cityPop[i-1].population < 100000){
-					citySize = 'Small';
-	
-				} else if (cityPop[i-1].population < 500000){
-					citySize = 'Medium';
-	
-				} else {
-					citySize = 'Large';
-				};
-	
-				row.insertAdjacentHTML = '<td' + citySize + '</td>';
-			};
-		});
-	
 
     //create the table element
     var table = document.createElement("table");
@@ -62,60 +37,27 @@ function cities(){
     //add the "City" and "Population" columns to the header row
     headerRow.insertAdjacentHTML("beforeend","<th>City</th><th>Population</th><th>City Size</th>")
 
-	
-
     //add the row to the table
     table.appendChild(headerRow);
 
     //loop to add a new row for each city
     for(var i = 0; i < cityPop.length; i++){
         //assign longer html strings to a variable
-        var rowHtml = "<tr><td>" + cityPop[i].city + "</td><td>" + cityPop[i].population  + "</td><td>" + cityPop[i].citySize + "</td></tr>";
+        var rowHtml = "<tr><td>" + cityPop[i].city + "</td><td>" + cityPop[i].population + "</td><td>" + cityPop[i].citySize + "</td></tr>";
         //add the row's html string to the table
         table.insertAdjacentHTML('beforeend',rowHtml);
     }
 
-;
-function addColumns(cityPop){
-    
-	document.querySelectorAll("tr").forEach(function(row, i){
-
-		if (i == 0){
-
-			headerRow.insertAdjacentHTML('beforeend', '<th>City Size</th>');
-		} else {
-
-			var citySize;
-
-			if (cityPop[i-1].population < 100000){
-				citySize = 'Small';
-
-			} else if (cityPop[i-1].population < 500000){
-				citySize = 'Medium';
-
-			} else {
-				citySize = 'Large';
-			};
-
-			row.insertAdjacentHTML = '<td' + citySize + '</td>';
-		};
-	});
-};
-
-addColumns
 
 
     document.querySelector("#mydiv").appendChild(table);
 }
 
-document.addEventListener('DOMContentLoaded',initialize)
-
-
 function addEvents(){
 
 	document.querySelector("table").addEventListener("mouseover", function(){
 		
-		var color = "rgb(";
+		var color = "rgb";
 
 		for (var i=0; i<3; i++){
 
@@ -131,7 +73,8 @@ function addEvents(){
 		};
 
 		document.querySelector("table").color = color;
-	};
+}});
+
 
 	function clickme(){
 
@@ -139,4 +82,59 @@ function addEvents(){
 	};
 
 	document.querySelector("table").addEventListener("click", clickme)
-})};
+};
+
+document.addEventListener('DOMContentLoaded',initialize)
+
+
+//define fetch request
+function jsAjax(){
+    //basic fetch
+    fetch('data/MegaCities.geojson')
+        .then(function(response){
+            return response.json();
+        }) 
+        .then(callback) 
+};
+
+//define callback function
+function callback(response){
+
+    var myData = response;
+
+    console.log(myData) //function "myData" can be used as it is within callback function
+    
+};
+
+ // console.log(myData) yields "undefined;" function "myData" can't be used outside callback function
+
+window.onload = jsAjax();
+
+
+
+
+
+
+
+function debugAjax(){
+	
+	fetch("data/MegaCities.geojson")
+		.then(function(response){
+            return response.json();
+        })
+
+			.then(debugCallback)
+            
+};
+
+function debugCallback(response){
+
+    var myData = response; 
+	document.querySelector("#mydiv").insertAdjacentHTML('beforeend', '<br> GeoJSON data: <br>' + JSON.stringify(myData))
+};
+window.onload = debugAjax();
+
+
+
+
+

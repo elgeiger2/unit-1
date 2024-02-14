@@ -47,7 +47,7 @@ function addEvents(){
 
 	document.querySelector("table").addEventListener("mouseover", function(){
 		
-		var color = "rgb(";
+		var color = "rgb";
 
 		for (var i=0; i<3; i++){
 
@@ -63,7 +63,8 @@ function addEvents(){
 		};
 
 		document.querySelector("table").color = color;
-	});
+}});
+
 
 	function clickme(){
 
